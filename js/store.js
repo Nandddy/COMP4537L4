@@ -7,21 +7,21 @@ const url = "https://stevenctemp.com/COMP4537/labs/4/api/definitions/"
 
 addButton.addEventListener("click", () => {
 
-    if (textareaWord.value == ""){
+    if (textareaWord.value == "" || /\d/.test(textareaWord.value)){
         statusMsg.style.color = 'red';
-        statusMsg.innerText = "Please enter a word.";
-    } else if (textareaDef.value == "") {
+        statusMsg.innerText = "Please enter a valid word.";
+    } else if (textareaDef.value == "" || /\d/.test(textareaDef.value)) {
         statusMsg.style.color = 'red';
-        statusMsg.innerText = "Please enter a definition.";
+        statusMsg.innerText = "Please enter a valid definition.";
     } else {
-        console.log("sending");
+        
         const params = "?word=" + textareaWord.value + "&definition=" + textareaDef.value;
         xhttp.open("POST", url, true);
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 statusMsg.style.color = 'green';
-                statusMsg.innerText = "Success! " + JSON.parse(xhttp.response).msg;
-            } else {
+                statusMsg.innerText = "Successful, server response: " + JSON.parse(xhttp.response).msg;
+            } else if (xhttp.readyState == 4 && xhttp.status != 200){
                 statusMsg.style.color = 'red';
                 statusMsg.innerText = "Something went wrong, status code: " + xhttp.status;
             }

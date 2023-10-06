@@ -16,10 +16,12 @@ addButton.addEventListener("click", () => {
         xhttp.open("GET", url+formatURL(params), true);
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
-                console.log("received");
+                console.log(xhttp.response);
+                const parsedResponse = JSON.parse(xhttp.response);
+                console.log(parsedResponse.word);
                 statusMsg.style.color = 'green';
                 statusMsg.innerText = "Success!";
-                textareaDef.innerText = JSON.parse(xhttp.response).msg;
+                textareaDef.innerText = '\nWord: ' + parsedResponse.word + "\nDefinition: " + parsedResponse.definition;
             } else if (xhttp.readyState == 4 && xhttp.status != 200){
                 statusMsg.style.color = 'red';
                 statusMsg.innerText = "Something went wrong, status code: " + xhttp.status;
